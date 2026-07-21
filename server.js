@@ -22,6 +22,33 @@ app.use((req, res, next) => {
   next();
 });
 
+// Basic Auth Middleware
+const basicAuth = (req, res, next) => {
+  // Public access for health check status endpoint
+  if (req.path === '/status') {
+    return next();
+  }
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Basic ')) {
+    res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
+    return res.status(401).json({ error: 'Unauthorized: Missing or invalid Authorization header' });
+  }
+
+  const base64Credentials = authHeader.split(' ')[1];
+  const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
+  const [username, password] = credentials.split(':');
+
+  if (username === config.basicAuth.user && password === config.basicAuth.pass) {
+    return next();
+  }
+
+  res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
+  return res.status(401).json({ error: 'Unauthorized: Invalid username or password' });
+};
+
+app.use(basicAuth);
+
 // Helper for mapping
 const mapEmployee = (row) => ({
   empId: row.EMP_ID,

@@ -53,11 +53,19 @@ if (endpoints.length === 0) {
   process.exit(1);
 }
 
+const AUTH_USER = process.env.BASIC_AUTH_USER || 'admin';
+const AUTH_PASS = process.env.BASIC_AUTH_PASS || 'password123';
+const AUTH_HEADER = 'Basic ' + Buffer.from(`${AUTH_USER}:${AUTH_PASS}`).toString('base64');
+
 async function testEndpoint(ep) {
   const url = BASE_URL + ep.path;
   const start = Date.now();
   try {
-    const res  = await fetch(url);
+    const res  = await fetch(url, {
+      headers: {
+        'Authorization': AUTH_HEADER
+      }
+    });
     const text = await res.text();
     const duration  = Date.now() - start;
     const sizeBytes = Buffer.byteLength(text, 'utf8');
