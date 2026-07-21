@@ -32,7 +32,7 @@ if (!databaseURL.includes('sslmode=')) {
 
 const config = {
   databaseURL,
-  port: process.env.PORT || 8081,
+  port: process.env.PORT || 3001,
 };
 
 console.log(`[Config] Loaded config. DB URL length: ${config.databaseURL.length} chars. Target Port: ${config.port}`);
