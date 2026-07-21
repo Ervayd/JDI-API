@@ -33,13 +33,10 @@ if (!databaseURL.includes('sslmode=')) {
 const config = {
   databaseURL,
   port: process.env.PORT || 3001,
-<<<<<<< HEAD
-=======
   basicAuth: {
-    user: process.env.BASIC_AUTH_USER || 'admin',
-    pass: process.env.BASIC_AUTH_PASS || 'password123',
+    user: process.env.BASIC_AUTH_USER || 'JDI-API',
+    pass: process.env.BASIC_AUTH_PASS || 'JDI-GO2026',
   },
->>>>>>> 081e1eb (Add Basic Auth)
 };
 
 console.log(`[Config] Loaded config. DB URL length: ${config.databaseURL.length} chars. Target Port: ${config.port}. Basic Auth User: ${config.basicAuth.user}`);
