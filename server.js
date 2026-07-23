@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 // Basic Auth Middleware
 const basicAuth = (req, res, next) => {
   // Public access for health check status endpoint
-  if (req.path === '/status') {
+  if (req.path === '/status' || req.path === '/api/status') {
     return next();
   }
 
@@ -128,7 +128,7 @@ const mapTraining = (row) => ({
 });
 
 // Routes
-app.get('/status', async (req, res) => {
+app.get(['/status', '/api/status'], async (req, res) => {
   let dbStatus = 'connected';
   try {
     await checkConnection();
@@ -145,7 +145,7 @@ app.get('/status', async (req, res) => {
   });
 });
 
-app.get('/employees', async (req, res) => {
+app.get(['/employees', '/api/employees'], async (req, res) => {
   try {
     const q = req.query.q || '';
     const page = parseInt(req.query.page) || 1;
@@ -198,7 +198,7 @@ app.get('/employees', async (req, res) => {
   }
 });
 
-app.get('/attendance/daily', async (req, res) => {
+app.get(['/attendance/daily', '/api/attendance/daily'], async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 100;
@@ -237,7 +237,7 @@ app.get('/attendance/daily', async (req, res) => {
   }
 });
 
-app.get('/attendance/monthly', async (req, res) => {
+app.get(['/attendance/monthly', '/api/attendance/monthly'], async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 100;
@@ -276,7 +276,7 @@ app.get('/attendance/monthly', async (req, res) => {
   }
 });
 
-app.get('/training', async (req, res) => {
+app.get(['/training', '/api/training'], async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 100;

@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JDI REST API - Dokumentasi & Panduan Integrasi</title>
+  <style>
+    /* Import Google Fonts for premium typography */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+
+    :root {
+      --primary: #0f172a;       /* Slate 900 */
+      --primary-light: #1e293b; /* Slate 800 */
+      --accent: #2563eb;        /* Blue 600 */
+      --accent-light: #eff6ff;  /* Blue 50 */
+      --success: #059669;       /* Emerald 600 */
+      --success-light: #ecfdf5;  /* Emerald 50 */
+      --warning: #d97706;       /* Amber 600 */
+      --warning-light: #fef3c7;  /* Amber 50 */
+      --text-main: #334155;     /* Slate 700 */
+      --text-dark: #0f172a;     /* Slate 900 */
+      --text-light: #64748b;    /* Slate 500 */
+      --bg-light: #f8fafc;      /* Slate 50 */
+      --border-color: #e2e8f0;  /* Slate 200 */
+      --code-color: #09333f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-main);
+      background-color: #ffffff;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* Print Styles and Page Setup */
+    @page {
+      size: A4;
+      margin: 20mm 15mm 20mm 15mm;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+      .no-break {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+    }
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    /* Cover Page Styling */
+    .cover-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 250mm; /* Sized for A4 height with margins */
+      padding: 40px 20px;
+      border-left: 8px solid var(--primary);
+    }
+
+    .cover-header {
+      margin-top: 60px;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      background-color: var(--accent-light);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .cover-title {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .cover-subtitle {
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text-light);
+      max-width: 600px;
+    }
+
+    .cover-details {
+      margin-bottom: 60px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 30px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .meta-item {
+      margin-bottom: 10px;
+    }
+
+    .meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* Section Styling */
+    section {
+      padding: 30px 0;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      margin-top: 30px;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+
+    /* Table of Contents */
+    .toc-list {
+      list-style: none;
+      margin: 30px 0;
+    }
+
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .toc-title {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .toc-dots {
+      flex-grow: 1;
+      border-bottom: 1px dotted var(--text-light);
+      margin: 0 10px;
+      position: relative;
+      top: -4px;
+    }
+
+    .toc-page {
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-right: 8px;
+    }
+
+    .badge-get {
+      background-color: var(--success-light);
+      color: var(--success);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+
+    .badge-auth {
+      background-color: var(--warning-light);
+      color: var(--warning);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+    }
+
+    .badge-public {
+      background-color: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    /* Endpoint Block */
+    .endpoint-block {
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 24px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .endpoint-route {
+      font-family: 'Fira Code', monospace;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .endpoint-desc {
+      margin-bottom: 16px;
+      font-size: 13.5px;
+      color: var(--text-main);
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      margin-top: 8px;
+    }
+
+    th {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--border-color);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    td code {
+      font-family: 'Fira Code', monospace;
+      background-color: var(--bg-light);
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .table-container {
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    /* Code Blocks */
+    pre {
+      background-color: var(--bg-light);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 15px;
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      color: var(--code-color);
+      overflow-x: auto;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .code-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 6px;
+      margin-top: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Architecture diagram styling */
+    .arch-flow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--bg-light);
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .arch-node {
+      background-color: #ffffff;
+      border: 1.5px solid var(--primary);
+      border-radius: 6px;
+      padding: 10px 15px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      min-width: 100px;
+    }
+
+    .arch-node.accent-node {
+      border-color: var(--accent);
+      color: var(--accent);
+      background-color: var(--accent-light);
+    }
+
+    .arch-arrow {
+      font-weight: bold;
+      color: var(--text-light);
+      font-size: 18px;
+    }
+
+    .highlight-box {
+      border-left: 4px solid var(--accent);
+      background-color: var(--accent-light);
+      padding: 15px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+    }
+
+    .highlight-box p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+      <div class="cover-header">
+        <div class="cover-badge">Referensi Developer</div>
+        <h1 class="cover-title">JDI REST API</h1>
+        <h2 class="cover-subtitle">Dokumentasi Teknis dan Spesifikasi Integrasi Layanan Backend (Express.js & PostgreSQL)</h2>
+      </div>
+
+      <div class="cover-details">
+        <div class="meta-grid">
+          <div class="meta-item">
+            <div class="meta-label">Versi API</div>
+            <div class="meta-value">1.0.0 (Production)</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Tanggal Rilis</div>
+            <div class="meta-value">Juli 2026</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Dibuat Dengan</div>
+            <div class="meta-value">Node.js, Express, PostgreSQL</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Dokumen ID</div>
+            <div class="meta-value">JDI-API-REF-2026-V1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- TABLE OF CONTENTS -->
+    <section>
+      <h2 class="section-title">Daftar Isi</h2>
+      <ul class="toc-list">
+        <li class="toc-item">
+          <span class="toc-title">1. Pendahuluan & Gambaran Umum</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">3</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">2. Autentikasi & Konfigurasi Dasar</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">3</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">3. Referensi Endpoint API</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">4</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;&nbsp;&nbsp;3.1 GET /status (Health Check)</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">4</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;&nbsp;&nbsp;3.2 GET /employees (Data Karyawan)</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">4</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;&nbsp;&nbsp;3.3 GET /attendance/daily (Kehadiran Harian)</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">5</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;&nbsp;&nbsp;3.4 GET /attendance/monthly (Kehadiran Bulanan)</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">6</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;&nbsp;&nbsp;3.5 GET /training (Catatan Pelatihan)</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">7</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">4. Model Data & Pemetaan Database</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">8</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">5. Indexing Database & Optimalisasi Performa</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">9</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">6. Penanganan Error (Error Handling)</span>
+          <span class="toc-dots"></span>
+          <span class="toc-page">9</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- SECTION 1: GAMBARAN UMUM -->
+    <section>
+      <h2 class="section-title">1. Pendahuluan & Gambaran Umum</h2>
+      <p>
+        <strong>JDI REST API</strong> adalah layanan API backend berbasis RESTful yang dikembangkan menggunakan framework <strong>Express.js (Node.js)</strong> dan didukung oleh database <strong>PostgreSQL</strong>. API ini dirancang untuk menyajikan data secara cepat dan efisien terkait informasi karyawan (employees), kehadiran harian (daily attendance), kehadiran bulanan (monthly attendance), serta catatan sertifikasi pelatihan karyawan (training).
+      </p>
+      <p>
+        Seluruh endpoint yang menyajikan data sensitif dilindungi dengan protokol keamanan standar, dilengkapi dengan kompresi gzip/brotli untuk performa transfer data optimal, serta optimasi query database melalui indexing pada kolom sorting utama.
+      </p>
+
+      <div class="arch-flow">
+        <div class="arch-node">Klien / Consumer</div>
+        <div class="arch-arrow">?</div>
+        <div class="arch-node accent-node">Basic Auth Middleware</div>
+        <div class="arch-arrow">?</div>
+        <div class="arch-node">Express API</div>
+        <div class="arch-arrow">?</div>
+        <div class="arch-node accent-node">PostgreSQL DB</div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: AUTENTIKASI -->
+    <section>
+      <h2 class="section-title">2. Autentikasi & Konfigurasi Dasar</h2>
+      <p>
+        Untuk menjaga keamanan data, semua endpoint API kecuali endpoint kesehatan status (<code>/status</code>) memerlukan autentikasi. Skema autentikasi yang digunakan adalah <strong>HTTP Basic Authentication</strong>.
+      </p>
+      <p>
+        Klien harus mengirimkan header HTTP berikut pada setiap request:
+      </p>
+      <pre>Authorization: Basic &lt;Base64(username:password)&gt;</pre>
+
+      <div class="highlight-box">
+        <p><strong>Konfigurasi Kredensial Default:</strong></p>
+        <p>Secara default, kredensial autentikasi API dikonfigurasi melalui environment variables (<code>.env</code>):</p>
+        <ul style="margin-left: 20px; margin-top: 8px;">
+          <li><strong>Username:</strong> <code>JDI-API</code> (diatur via <code>BASIC_AUTH_USER</code>)</li>
+          <li><strong>Password:</strong> <code>JDI-GO2026</code> (diatur via <code>BASIC_AUTH_PASS</code>)</li>
+        </ul>
+      </div>
+
+      <h3>Contoh Pembuatan Header Autentikasi (Node.js / JS)</h3>
+      <pre>const username = 'JDI-API';
+const password = 'JDI-GO2026';
+const credentials = Buffer.from(`${username}:${password}`).toString('base64');
+const headers = {
+  'Authorization': `Basic ${credentials}`,
+  'Content-Type': 'application/json'
+};</pre>
+    </section>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- SECTION 3: API REFERENCE -->
+    <section>
+      <h2 class="section-title">3. Referensi Endpoint API</h2>
+
+      <!-- ENDPOINT 3.1: GET /status -->
+      <div class="endpoint-block no-break">
+        <div class="endpoint-header">
+          <span class="badge badge-get">GET</span>
+          <span class="endpoint-route">/status</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+        <div class="endpoint-desc">
+          Memeriksa status kesehatan server dan koneksi database secara real-time. Endpoint ini bersifat publik dan tidak memerlukan header autentikasi.
+        </div>
+
+        <div class="code-title">Response JSON (200 OK)</div>
+        <pre>{
+  "status": "running",
+  "db_status": "connected",
+  "uptime": "142.50s",
+  "service": "JDI Express.js REST API",
+  "server_time": "2026-07-22T01:50:16.123Z"
+}</pre>
+      </div>
+
+      <!-- ENDPOINT 3.2: GET /employees -->
+      <div class="endpoint-block no-break">
+        <div class="endpoint-header">
+          <span class="badge badge-get">GET</span>
+          <span class="endpoint-route">/employees</span>
+          <span class="badge badge-auth">Basic Auth</span>
+        </div>
+        <div class="endpoint-desc">
+          Mengambil data direktori karyawan yang terdaftar di sistem. Mendukung pencarian teks (search) dan paginasi halaman.
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Query</th>
+                <th>Tipe</th>
+                <th>Default</th>
+                <th>Deskripsi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>q</code></td>
+                <td>String</td>
+                <td><code>""</code></td>
+                <td>Pencarian teks parsial (case-insensitive) pada kolom NIK (<code>EMP_NO</code>), nama (<code>NAME</code>), atau jabatan (<code>JOB_POSITION</code>).</td>
+              </tr>
+              <tr>
+                <td><code>page</code></td>
+                <td>Integer</td>
+                <td><code>1</code></td>
+                <td>Halaman data yang ingin diambil.</td>
+              </tr>
+              <tr>
+                <td><code>limit</code></td>
+                <td>Integer</td>
+                <td><code>100</code></td>
+                <td>Jumlah baris data per halaman (maksimum data yang dikembalikan).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-title">Contoh Request cURL</div>
+        <pre>curl -i -H "Authorization: Basic SkRJLUFQSTpKREktR08yMDI2" \
+  "http://localhost:3001/employees?q=Budi&page=1&limit=2"</pre>
+
+        <div class="page-break"></div>
+
+        <div class="code-title">Response JSON (200 OK)</div>
+        <pre>{
+  "total": 1,
+  "page": 1,
+  "limit": 2,
+  "totalPages": 1,
+  "data": [
+    {
+      "empId": 45,
+      "empNo": "202409823",
+      "name": "Budi Setiawan",
+      "positionNameEn": "Operation Officer",
+      "jobPosition": "Staff Operasional",
+      "lob": "LOGISTICS",
+      "departmentName": "Cargo Operation",
+      "subDepartmentName": "Warehouse Delivery",
+      "workLocationCode": "CGK-WH",
+      "spvId": "10234",
+      "spvName": "Heri Prasetyo",
+      "airline": "Garuda Indonesia",
+      "empType": "PERMANENT",
+      "vendorName": null,
+      "isActive": true,
+      "createdAt": "2026-07-20T14:32:00.000Z",
+      "updatedAt": "2026-07-21T08:15:30.000Z"
+    }
+  ]
+}</pre>
+      </div>
+
+      <!-- ENDPOINT 3.3: GET /attendance/daily -->
+      <div class="endpoint-block no-break">
+        <div class="endpoint-header">
+          <span class="badge badge-get">GET</span>
+          <span class="endpoint-route">/attendance/daily</span>
+          <span class="badge badge-auth">Basic Auth</span>
+        </div>
+        <div class="endpoint-desc">
+          Mengambil data kehadiran harian karyawan. Terurut berdasarkan tanggal mulai shift secara menurun (<code>SHIFT_START DESC</code>).
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Query</th>
+                <th>Tipe</th>
+                <th>Default</th>
+                <th>Deskripsi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>page</code></td>
+                <td>Integer</td>
+                <td><code>1</code></td>
+                <td>Halaman data yang ingin diambil.</td>
+              </tr>
+              <tr>
+                <td><code>limit</code></td>
+                <td>Integer</td>
+                <td><code>100</code></td>
+                <td>Jumlah baris data per halaman.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-title">Contoh Request cURL</div>
+        <pre>curl -i -H "Authorization: Basic SkRJLUFQSTpKREktR08yMDI2" \
+  "http://localhost:3001/attendance/daily?page=1&limit=1"</pre>
+
+        <div class="page-break"></div>
+
+        <div class="code-title">Response JSON (200 OK)</div>
+        <pre>{
+  "total": 12543,
+  "page": 1,
+  "limit": 1,
+  "totalPages": 12543,
+  "data": [
+    {
+      "atdId": 82012,
+      "attendId": "9082341",
+      "empNo": "202409823",
+      "name": "Budi Setiawan",
+      "shiftStart": "2026-07-21T08:00:00.000Z",
+      "shiftBreakStart1": "2026-07-21T12:00:00.000Z",
+      "shiftBreakEnd1": "2026-07-21T13:00:00.000Z",
+      "shiftEnd": "2026-07-21T17:00:00.000Z",
+      "startTime": "2026-07-21T07:54:12.000Z",
+      "actualBreakStart1": "2026-07-21T12:02:10.000Z",
+      "actualBreakEnd1": "2026-07-21T12:58:45.000Z",
+      "endTime": "2026-07-21T17:05:30.000Z",
+      "attendCode": "H",
+      "otRealInMinutes": 30,
+      "otIndexInHour": 0.5,
+      "otphRealInMinutes": 0,
+      "otphIndexInHour": 0,
+      "lastUpdate": "2026-07-21T17:15:00.000Z",
+      "remark": "Hadir tepat waktu, lembur 30 menit disetujui"
+    }
+  ]
+}</pre>
+      </div>
+
+      <!-- ENDPOINT 3.4: GET /attendance/monthly -->
+      <div class="endpoint-block no-break">
+        <div class="endpoint-header">
+          <span class="badge badge-get">GET</span>
+          <span class="endpoint-route">/attendance/monthly</span>
+          <span class="badge badge-auth">Basic Auth</span>
+        </div>
+        <div class="endpoint-desc">
+          Mengambil data rekap kehadiran bulanan karyawan. Respon data identik dengan kehadiran harian, namun merujuk ke tabel bulanan.
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Query</th>
+                <th>Tipe</th>
+                <th>Default</th>
+                <th>Deskripsi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>page</code></td>
+                <td>Integer</td>
+                <td><code>1</code></td>
+                <td>Halaman data yang ingin diambil.</td>
+              </tr>
+              <tr>
+                <td><code>limit</code></td>
+                <td>Integer</td>
+                <td><code>100</code></td>
+                <td>Jumlah baris data per halaman.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-title">Contoh Request cURL</div>
+        <pre>curl -i -H "Authorization: Basic SkRJLUFQSTpKREktR08yMDI2" \
+  "http://localhost:3001/attendance/monthly?page=1&limit=1"</pre>
+
+        <div class="page-break"></div>
+
+        <div class="code-title">Response JSON (200 OK)</div>
+        <pre>{
+  "total": 412,
+  "page": 1,
+  "limit": 1,
+  "totalPages": 412,
+  "data": [
+    {
+      "atmId": 5422,
+      "attendId": "9082341",
+      "empNo": "202409823",
+      "name": "Budi Setiawan",
+      "shiftStart": "2026-07-01T08:00:00.000Z",
+      "shiftBreakStart1": "2026-07-01T12:00:00.000Z",
+      "shiftBreakEnd1": "2026-07-01T13:00:00.000Z",
+      "shiftEnd": "2026-07-01T17:00:00.000Z",
+      "startTime": "2026-07-01T07:50:00.000Z",
+      "actualBreakStart1": "2026-07-01T12:00:00.000Z",
+      "actualBreakEnd1": "2026-07-01T13:00:00.000Z",
+      "endTime": "2026-07-01T17:00:00.000Z",
+      "attendCode": "H",
+      "otRealInMinutes": 0,
+      "otIndexInHour": 0,
+      "otphRealInMinutes": 0,
+      "otphIndexInHour": 0,
+      "lastUpdate": "2026-07-01T17:00:00.000Z",
+      "remark": null
+    }
+  ]
+}</pre>
+      </div>
+
+      <!-- ENDPOINT 3.5: GET /training -->
+      <div class="endpoint-block no-break">
+        <div class="endpoint-header">
+          <span class="badge badge-get">GET</span>
+          <span class="endpoint-route">/training</span>
+          <span class="badge badge-auth">Basic Auth</span>
+        </div>
+        <div class="endpoint-desc">
+          Mengambil daftar catatan pelatihan (training) karyawan beserta informasi sertifikat dan tanggal kedaluwarsa sertifikat.
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Query</th>
+                <th>Tipe</th>
+                <th>Default</th>
+                <th>Deskripsi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>page</code></td>
+                <td>Integer</td>
+                <td><code>1</code></td>
+                <td>Halaman data yang ingin diambil.</td>
+              </tr>
+              <tr>
+                <td><code>limit</code></td>
+                <td>Integer</td>
+                <td><code>100</code></td>
+                <td>Jumlah baris data per halaman.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-title">Contoh Request cURL</div>
+        <pre>curl -i -H "Authorization: Basic SkRJLUFQSTpKREktR08yMDI2" \
+  "http://localhost:3001/training?page=1&limit=1"</pre>
+
+        <div class="code-title">Response JSON (200 OK)</div>
+        <pre>{
+  "total": 850,
+  "page": 1,
+  "limit": 1,
+  "totalPages": 850,
+  "data": [
+    {
+      "trainingId": "3491",
+      "empNo": "202409823",
+      "name": "Budi Setiawan",
+      "trainingSubject": "Dangerous Goods Regulations - Cat 6",
+      "certificateNo": "CERT-DGR-2026-0891",
+      "trainingDate": "2026-05-10T00:00:00.000Z",
+      "certDate": "2026-05-12T00:00:00.000Z",
+      "certExpired": "2028-05-12T00:00:00.000Z",
+      "createdAt": "2026-05-12T09:00:00.000Z",
+      "updatedAt": "2026-05-12T09:00:00.000Z"
+    }
+  ]
+}</pre>
+      </div>
+    </section>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- SECTION 4: MODEL DATA -->
+    <section>
+      <h2 class="section-title">4. Model Data & Pemetaan Database</h2>
+      <p>
+        Untuk menjaga kebersihan kode dan performa query, API melakukan pemetaan (mapping) nama kolom database yang berformat UPPERCASE (atau snake_case) ke format <strong>camelCase</strong> di level JSON response.
+      </p>
+
+      <h3>Pemetaan Model Karyawan (tb_employee)</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama Property API</th>
+              <th>Kolom Database</th>
+              <th>Tipe Data</th>
+              <th>Deskripsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>empId</code></td><td><code>EMP_ID</code></td><td>Serial / Integer</td><td>Kunci utama karyawan.</td></tr>
+            <tr><td><code>empNo</code></td><td><code>EMP_NO</code></td><td>VARCHAR</td><td>Nomor Induk Karyawan (NIK) unik.</td></tr>
+            <tr><td><code>name</code></td><td><code>NAME</code></td><td>VARCHAR</td><td>Nama lengkap karyawan.</td></tr>
+            <tr><td><code>positionNameEn</code></td><td><code>POSITION_NAME_EN</code></td><td>VARCHAR</td><td>Nama jabatan dalam Bahasa Inggris.</td></tr>
+            <tr><td><code>jobPosition</code></td><td><code>JOB_POSITION</code></td><td>VARCHAR</td><td>Jabatan spesifik di organisasi.</td></tr>
+            <tr><td><code>lob</code></td><td><code>LOB</code></td><td>VARCHAR</td><td>Line of Business (Divisi Bisnis).</td></tr>
+            <tr><td><code>departmentName</code></td><td><code>DEPARTMENT_NAME</code></td><td>VARCHAR</td><td>Nama Departemen.</td></tr>
+            <tr><td><code>subDepartmentName</code></td><td><code>SUB_DEPARTMENT_NAME</code></td><td>VARCHAR</td><td>Nama Sub-Departemen.</td></tr>
+            <tr><td><code>workLocationCode</code></td><td><code>WORKLOCATION_CODE</code></td><td>VARCHAR</td><td>Kode lokasi fisik bekerja.</td></tr>
+            <tr><td><code>spvId</code></td><td><code>SPV_ID</code></td><td>VARCHAR</td><td>NIK Supervisor terkait.</td></tr>
+            <tr><td><code>spvName</code></td><td><code>SPV_NAME</code></td><td>VARCHAR</td><td>Nama Supervisor terkait.</td></tr>
+            <tr><td><code>airline</code></td><td><code>AIRLINE</code></td><td>VARCHAR</td><td>Nama maskapai (opsional).</td></tr>
+            <tr><td><code>empType</code></td><td><code>EMP_TYPE</code></td><td>VARCHAR</td><td>Status kepegawaian (PERMANENT/CONTRACT).</td></tr>
+            <tr><td><code>vendorName</code></td><td><code>VENDOR_NAME</code></td><td>VARCHAR</td><td>Nama vendor penyedia (jika outsource).</td></tr>
+            <tr><td><code>isActive</code></td><td><code>is_active</code></td><td>Boolean</td><td>Menunjukkan status kepegawaian aktif.</td></tr>
+            <tr><td><code>createdAt</code></td><td><code>created_at</code></td><td>Timestamp</td><td>Waktu pembuatan data.</td></tr>
+            <tr><td><code>updatedAt</code></td><td><code>updated_at</code></td><td>Timestamp</td><td>Waktu pembaruan data terakhir.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page-break"></div>
+
+      <h3>Pemetaan Model Kehadiran (tb_attendance_daily & tb_attendance_monthly)</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama Property API</th>
+              <th>Kolom Database</th>
+              <th>Tipe Data</th>
+              <th>Deskripsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>atdId</code> / <code>atmId</code></td><td><code>ATD_ID</code> / <code>ATM_ID</code></td><td>Serial / Integer</td><td>Kunci utama catatan kehadiran.</td></tr>
+            <tr><td><code>attendId</code></td><td><code>ATTEND_ID</code></td><td>BigInt (dikonversi ke String)</td><td>ID unik dari mesin fingerprint/kehadiran.</td></tr>
+            <tr><td><code>empNo</code></td><td><code>EMP_NO</code></td><td>VARCHAR</td><td>NIK Karyawan terkait.</td></tr>
+            <tr><td><code>name</code></td><td><code>NAME</code></td><td>VARCHAR</td><td>Nama Karyawan terkait.</td></tr>
+            <tr><td><code>shiftStart</code></td><td><code>SHIFT_START</code></td><td>Timestamp</td><td>Jadwal jam masuk shift.</td></tr>
+            <tr><td><code>shiftBreakStart1</code></td><td><code>SHIFTBREAK_START1</code></td><td>Timestamp</td><td>Jadwal mulai istirahat shift.</td></tr>
+            <tr><td><code>shiftBreakEnd1</code></td><td><code>SHIFTBREAK_END1</code></td><td>Timestamp</td><td>Jadwal selesai istirahat shift.</td></tr>
+            <tr><td><code>shiftEnd</code></td><td><code>SHIFT_END</code></td><td>Timestamp</td><td>Jadwal jam pulang shift.</td></tr>
+            <tr><td><code>startTime</code></td><td><code>START_TIME</code></td><td>Timestamp</td><td>Waktu tap-in aktual karyawan.</td></tr>
+            <tr><td><code>actualBreakStart1</code></td><td><code>ACTUAL_BREAKSTART1</code></td><td>Timestamp</td><td>Waktu mulai istirahat aktual.</td></tr>
+            <tr><td><code>actualBreakEnd1</code></td><td><code>ACTUAL_BREAKEND1</code></td><td>Timestamp</td><td>Waktu selesai istirahat aktual.</td></tr>
+            <tr><td><code>endTime</code></td><td><code>END_TIME</code></td><td>Timestamp</td><td>Waktu tap-out aktual karyawan.</td></tr>
+            <tr><td><code>attendCode</code></td><td><code>ATTEND_CODE</code></td><td>VARCHAR</td><td>Kode status (H: Hadir, A: Alfa, S: Sakit, dll).</td></tr>
+            <tr><td><code>otRealInMinutes</code></td><td><code>OT_REAL_IN_MINUTES</code></td><td>Integer</td><td>Durasi lembur aktual dalam menit.</td></tr>
+            <tr><td><code>otIndexInHour</code></td><td><code>OT_INDEX_IN_HOUR</code></td><td>Numeric (dikonversi ke Float)</td><td>Indeks pengali lembur dalam jam.</td></tr>
+            <tr><td><code>otphRealInMinutes</code></td><td><code>OTPH_REAL_IN_MINUTES</code></td><td>Integer</td><td>Durasi lembur hari libur nasional dalam menit.</td></tr>
+            <tr><td><code>otphIndexInHour</code></td><td><code>OTPH_INDEX_IN_HOUR</code></td><td>Numeric (dikonversi ke Float)</td><td>Indeks pengali lembur hari libur.</td></tr>
+            <tr><td><code>lastUpdate</code></td><td><code>LAST_UPDATE</code></td><td>Timestamp</td><td>Waktu pembaruan sinkronisasi terakhir.</td></tr>
+            <tr><td><code>remark</code></td><td><code>REMARK</code></td><td>TEXT</td><td>Keterangan/catatan tambahan.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- SECTION 5: INDEXING & OPTIMALISASI -->
+    <section>
+      <h2 class="section-title">5. Indexing Database & Optimalisasi Performa</h2>
+      <p>
+        Untuk menjaga performa query agar tetap responsif meskipun data bertumbuh hingga jutaan baris, telah dibuat database indexes pada kolom-kolom yang digunakan dalam klausul <code>ORDER BY</code> dan <code>WHERE</code>:
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama Index Database</th>
+              <th>Tabel Target</th>
+              <th>Kolom Target</th>
+              <th>Tujuan Optimalisasi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>idx_tb_employee_created_at</code></td>
+              <td><code>tb_employee</code></td>
+              <td><code>created_at DESC</code></td>
+              <td>Mempercepat query paginasi default pada daftar karyawan yang diurutkan dari data terbaru.</td>
+            </tr>
+            <tr>
+              <td><code>idx_tb_attendance_daily_shift_start_last_update</code></td>
+              <td><code>tb_attendance_daily</code></td>
+              <td><code>SHIFT_START DESC, LAST_UPDATE DESC</code></td>
+              <td>Meningkatkan performa sorting multi-kolom saat sinkronisasi kehadiran harian.</td>
+            </tr>
+            <tr>
+              <td><code>idx_tb_attendance_monthly_shift_start_last_update</code></td>
+              <td><code>tb_attendance_monthly</code></td>
+              <td><code>SHIFT_START DESC, LAST_UPDATE DESC</code></td>
+              <td>Meningkatkan performa sorting multi-kolom saat memuat ringkasan bulanan.</td>
+            </tr>
+            <tr>
+              <td><code>idx_tb_training_created_at</code></td>
+              <td><code>tb_training</code></td>
+              <td><code>CREATED_AT DESC</code></td>
+              <td>Meningkatkan performa query data pelatihan terbaru.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 6: PENANGANAN ERROR -->
+    <section class="no-break">
+      <h2 class="section-title">6. Penanganan Error (Error Handling)</h2>
+      <p>
+        API ini menggunakan kode status HTTP standar untuk menunjukkan keberhasilan atau kegagalan suatu request. Jika terjadi error, sistem akan merespon dengan format JSON standar:
+      </p>
+      
+      <div class="code-title">Format Respon Error</div>
+      <pre>{
+  "error": "Pesan deskripsi kesalahan detail"
+}</pre>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>HTTP Code</th>
+              <th>Status Error</th>
+              <th>Penyebab & Solusi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>401</code></td>
+              <td>Unauthorized</td>
+              <td>Header <code>Authorization</code> tidak disertakan, format Basic Auth salah, atau kombinasi username/password salah. Periksa kredensial integrasi Anda.</td>
+            </tr>
+            <tr>
+              <td><code>404</code></td>
+              <td>Not Found</td>
+              <td>Endpoint/route URL yang diminta tidak dikenali oleh Express.js. Pastikan path URL sudah benar.</td>
+            </tr>
+            <tr>
+              <td><code>500</code></td>
+              <td>Internal Server Error</td>
+              <td>Terjadi kendala pada backend server, seperti koneksi database PostgreSQL yang terputus atau sintaks query yang bermasalah.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
