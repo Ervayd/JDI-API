@@ -149,7 +149,7 @@ app.get(['/employees', '/api/employees'], async (req, res) => {
   try {
     const q = req.query.q || '';
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
+    const limit = parseInt(req.query.limit) || 100;
     const validLimit = Math.min(limit, 100);
     const offset = (page - 1) * validLimit;
 
