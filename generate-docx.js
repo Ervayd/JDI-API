@@ -315,7 +315,7 @@ const employeesParams = createTable(
   [
     ["q", "String", '""', "Pencarian teks parsial (case-insensitive) pada kolom NIK (EMP_NO), nama (NAME), atau jabatan (JOB_POSITION)."],
     ["page", "Integer", "1", "Halaman data yang ingin diambil."],
-    ["limit", "Integer", "100", "Jumlah baris data per halaman (maksimum data yang dikembalikan)."]
+    ["limit", "Integer", "20", "Jumlah baris data per halaman (maksimum 100 data per request)."]
   ]
 );
 docChildren.push(employeesParams);
@@ -323,7 +323,7 @@ docChildren.push(employeesParams);
 docChildren.push(createParagraph("Response (200 OK):", { bold: true }));
 docChildren.push(createParagraph([
   new TextRun({
-    text: "{\n  \"total\": 1,\n  \"page\": 1,\n  \"limit\": 2,\n  \"totalPages\": 1,\n  \"data\": [\n    {\n      \"empId\": 45,\n      \"empNo\": \"202409823\",\n      \"name\": \"Budi Setiawan\",\n      \"positionNameEn\": \"Operation Officer\",\n      \"jobPosition\": \"Staff Operasional\",\n      \"lob\": \"LOGISTICS\",\n      \"departmentName\": \"Cargo Operation\",\n      \"subDepartmentName\": \"Warehouse Delivery\",\n      \"workLocationCode\": \"CGK-WH\",\n      \"spvId\": \"10234\",\n      \"spvName\": \"Heri Prasetyo\",\n      \"airline\": \"Garuda Indonesia\",\n      \"empType\": \"PERMANENT\",\n      \"vendorName\": null,\n      \"isActive\": true,\n      \"createdAt\": \"2026-07-20T14:32:00.000Z\",\n      \"updatedAt\": \"2026-07-21T08:15:30.000Z\"\n    }\n  ]\n}",
+    text: "{\n  \"data\": [\n    {\n      \"empId\": 45,\n      \"empNo\": \"202409823\",\n      \"name\": \"Budi Setiawan\",\n      \"positionNameEn\": \"Operation Officer\",\n      \"jobPosition\": \"Staff Operasional\",\n      \"lob\": \"LOGISTICS\",\n      \"departmentName\": \"Cargo Operation\",\n      \"subDepartmentName\": \"Warehouse Delivery\",\n      \"workLocationCode\": \"CGK-WH\",\n      \"spvId\": \"10234\",\n      \"spvName\": \"Heri Prasetyo\",\n      \"airline\": \"Garuda Indonesia\",\n      \"empType\": \"PERMANENT\",\n      \"vendorName\": null,\n      \"isActive\": true,\n      \"createdAt\": \"2026-07-20T14:32:00.000Z\",\n      \"updatedAt\": \"2026-07-21T08:15:30.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"totalItems\": 1,\n    \"itemCount\": 1,\n    \"itemsPerPage\": 2,\n    \"totalPages\": 1,\n    \"currentPage\": 1,\n    \"hasNextPage\": false,\n    \"hasPreviousPage\": false\n  }\n}",
     font: "Consolas",
     size: 18
   })
@@ -340,7 +340,7 @@ const dailyParams = createTable(
   ["Parameter", "Tipe", "Default", "Deskripsi"],
   [
     ["page", "Integer", "1", "Halaman data yang ingin diambil."],
-    ["limit", "Integer", "100", "Jumlah baris data per halaman."]
+    ["limit", "Integer", "20", "Jumlah baris data per halaman (maksimum 100 data per request)."]
   ]
 );
 docChildren.push(dailyParams);
@@ -348,7 +348,7 @@ docChildren.push(dailyParams);
 docChildren.push(createParagraph("Response (200 OK):", { bold: true }));
 docChildren.push(createParagraph([
   new TextRun({
-    text: "{\n  \"total\": 12543,\n  \"page\": 1,\n  \"limit\": 1,\n  \"totalPages\": 12543,\n  \"data\": [\n    {\n      \"atdId\": 82012,\n      \"attendId\": \"9082341\",\n      \"empNo\": \"202409823\",\n      \"name\": \"Budi Setiawan\",\n      \"shiftStart\": \"2026-07-21T08:00:00.000Z\",\n      \"shiftBreakStart1\": \"2026-07-21T12:00:00.000Z\",\n      \"shiftBreakEnd1\": \"2026-07-21T13:00:00.000Z\",\n      \"shiftEnd\": \"2026-07-21T17:00:00.000Z\",\n      \"startTime\": \"2026-07-21T07:54:12.000Z\",\n      \"actualBreakStart1\": \"2026-07-21T12:02:10.000Z\",\n      \"actualBreakEnd1\": \"2026-07-21T12:58:45.000Z\",\n      \"endTime\": \"2026-07-21T17:05:30.000Z\",\n      \"attendCode\": \"H\",\n      \"otRealInMinutes\": 30,\n      \"otIndexInHour\": 0.5,\n      \"otphRealInMinutes\": 0,\n      \"otphIndexInHour\": 0,\n      \"lastUpdate\": \"2026-07-21T17:15:00.000Z\",\n      \"remark\": \"Hadir tepat waktu, lembur 30 menit disetujui\"\n    }\n  ]\n}",
+    text: "{\n  \"data\": [\n    {\n      \"atdId\": 82012,\n      \"attendId\": \"9082341\",\n      \"empNo\": \"202409823\",\n      \"name\": \"Budi Setiawan\",\n      \"shiftStart\": \"2026-07-21T08:00:00.000Z\",\n      \"shiftBreakStart1\": \"2026-07-21T12:00:00.000Z\",\n      \"shiftBreakEnd1\": \"2026-07-21T13:00:00.000Z\",\n      \"shiftEnd\": \"2026-07-21T17:00:00.000Z\",\n      \"startTime\": \"2026-07-21T07:54:12.000Z\",\n      \"actualBreakStart1\": \"2026-07-21T12:02:10.000Z\",\n      \"actualBreakEnd1\": \"2026-07-21T12:58:45.000Z\",\n      \"endTime\": \"2026-07-21T17:05:30.000Z\",\n      \"attendCode\": \"H\",\n      \"otRealInMinutes\": 30,\n      \"otIndexInHour\": 0.5,\n      \"otphRealInMinutes\": 0,\n      \"otphIndexInHour\": 0,\n      \"lastUpdate\": \"2026-07-21T17:15:00.000Z\",\n      \"remark\": \"Hadir tepat waktu, lembur 30 menit disetujui\"\n    }\n  ],\n  \"meta\": {\n    \"totalItems\": 12543,\n    \"itemCount\": 1,\n    \"itemsPerPage\": 1,\n    \"totalPages\": 12543,\n    \"currentPage\": 1,\n    \"hasNextPage\": true,\n    \"hasPreviousPage\": false\n  }\n}",
     font: "Consolas",
     size: 18
   })
@@ -361,6 +361,15 @@ docChildren.push(createParagraph("Mengambil log kehadiran bulanan karyawan. Diur
 docChildren.push(createParagraph("Parameter Query:", { bold: true }));
 docChildren.push(dailyParams); // reuse daily params schema table
 
+docChildren.push(createParagraph("Response (200 OK):", { bold: true }));
+docChildren.push(createParagraph([
+  new TextRun({
+    text: "{\n  \"data\": [\n    {\n      \"atmId\": 5422,\n      \"attendId\": \"9082341\",\n      \"empNo\": \"202409823\",\n      \"name\": \"Budi Setiawan\",\n      \"shiftStart\": \"2026-07-01T08:00:00.000Z\",\n      \"shiftBreakStart1\": \"2026-07-01T12:00:00.000Z\",\n      \"shiftBreakEnd1\": \"2026-07-01T13:00:00.000Z\",\n      \"shiftEnd\": \"2026-07-01T17:00:00.000Z\",\n      \"startTime\": \"2026-07-01T07:50:00.000Z\",\n      \"actualBreakStart1\": \"2026-07-01T12:00:00.000Z\",\n      \"actualBreakEnd1\": \"2026-07-01T13:00:00.000Z\",\n      \"endTime\": \"2026-07-01T17:00:00.000Z\",\n      \"attendCode\": \"H\",\n      \"otRealInMinutes\": 0,\n      \"otIndexInHour\": 0,\n      \"otphRealInMinutes\": 0,\n      \"otphIndexInHour\": 0,\n      \"lastUpdate\": \"2026-07-01T17:00:00.000Z\",\n      \"remark\": null\n    }\n  ],\n  \"meta\": {\n    \"totalItems\": 412,\n    \"itemCount\": 1,\n    \"itemsPerPage\": 1,\n    \"totalPages\": 412,\n    \"currentPage\": 1,\n    \"hasNextPage\": true,\n    \"hasPreviousPage\": false\n  }\n}",
+    font: "Consolas",
+    size: 18
+  })
+]));
+
 // GET /training
 docChildren.push(createHeading("3.5 GET /training & /api/training (Catatan Pelatihan)", HeadingLevel.HEADING_2));
 docChildren.push(createParagraph("Mengambil daftar riwayat pelatihan sertifikasi karyawan. Diurutkan secara descending berdasarkan CREATED_AT."));
@@ -371,7 +380,7 @@ docChildren.push(dailyParams); // reuse daily params schema table
 docChildren.push(createParagraph("Response (200 OK):", { bold: true }));
 docChildren.push(createParagraph([
   new TextRun({
-    text: "{\n  \"total\": 850,\n  \"page\": 1,\n  \"limit\": 1,\n  \"totalPages\": 850,\n  \"data\": [\n    {\n      \"trainingId\": \"3491\",\n      \"empNo\": \"202409823\",\n      \"name\": \"Budi Setiawan\",\n      \"trainingSubject\": \"Dangerous Goods Regulations - Cat 6\",\n      \"certificateNo\": \"CERT-DGR-2026-0891\",\n      \"trainingDate\": \"2026-05-10T00:00:00.000Z\",\n      \"certDate\": \"2026-05-12T00:00:00.000Z\",\n      \"certExpired\": \"2028-05-12T00:00:00.000Z\",\n      \"createdAt\": \"2026-05-12T09:00:00.000Z\",\n      \"updatedAt\": \"2026-05-12T09:00:00.000Z\"\n    }\n  ]\n}",
+    text: "{\n  \"data\": [\n    {\n      \"trainingId\": \"3491\",\n      \"empNo\": \"202409823\",\n      \"name\": \"Budi Setiawan\",\n      \"trainingSubject\": \"Dangerous Goods Regulations - Cat 6\",\n      \"certificateNo\": \"CERT-DGR-2026-0891\",\n      \"trainingDate\": \"2026-05-10T00:00:00.000Z\",\n      \"certDate\": \"2026-05-12T00:00:00.000Z\",\n      \"certExpired\": \"2028-05-12T00:00:00.000Z\",\n      \"createdAt\": \"2026-05-12T09:00:00.000Z\",\n      \"updatedAt\": \"2026-05-12T09:00:00.000Z\"\n    }\n  ],\n  \"meta\": {\n    \"totalItems\": 850,\n    \"itemCount\": 1,\n    \"itemsPerPage\": 1,\n    \"totalPages\": 850,\n    \"currentPage\": 1,\n    \"hasNextPage\": true,\n    \"hasPreviousPage\": false\n  }\n}",
     font: "Consolas",
     size: 18
   })

@@ -102,7 +102,9 @@ async function run() {
       if (ep.isStatus && result.body) {
         info = `DB: ${result.body.db_status === 'connected' ? C.green + 'connected' : C.red + result.body.db_status}${C.reset}`;
       } else if (result.body) {
-        totalRows = result.body.total !== undefined ? result.body.total : (Array.isArray(result.body.data) ? result.body.data.length : 0);
+        totalRows = result.body.meta?.totalItems !== undefined 
+          ? result.body.meta.totalItems 
+          : (result.body.total !== undefined ? result.body.total : (Array.isArray(result.body.data) ? result.body.data.length : 0));
         info = `${C.bold}${C.green}${formatNumber(totalRows)}${C.reset} rows`;
       }
 

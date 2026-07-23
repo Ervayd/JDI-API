@@ -189,11 +189,6 @@ app.get(['/employees', '/api/employees'], async (req, res) => {
     const mappedData = dataRes.rows.map(mapEmployee);
 
     res.json({
-      total,
-      page,
-      limit: validLimit,
-      totalPages,
-      pages: totalPages,
       data: mappedData,
       meta: {
         totalItems: total,
@@ -240,11 +235,6 @@ app.get(['/attendance/daily', '/api/attendance/daily'], async (req, res) => {
     const mappedData = dataRes.rows.map(mapAttendanceDaily);
 
     res.json({
-      total,
-      page,
-      limit: validLimit,
-      totalPages,
-      pages: totalPages,
       data: mappedData,
       meta: {
         totalItems: total,
@@ -291,11 +281,6 @@ app.get(['/attendance/monthly', '/api/attendance/monthly'], async (req, res) => 
     const mappedData = dataRes.rows.map(mapAttendanceMonthly);
 
     res.json({
-      total,
-      page,
-      limit: validLimit,
-      totalPages,
-      pages: totalPages,
       data: mappedData,
       meta: {
         totalItems: total,
@@ -339,11 +324,6 @@ app.get(['/training', '/api/training'], async (req, res) => {
     const mappedData = dataRes.rows.map(mapTraining);
 
     res.json({
-      total,
-      page,
-      limit: validLimit,
-      totalPages,
-      pages: totalPages,
       data: mappedData,
       meta: {
         totalItems: total,
