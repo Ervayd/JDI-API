@@ -593,8 +593,8 @@ const headers = {
               <tr>
                 <td><code>limit</code></td>
                 <td>Integer</td>
-                <td><code>100</code></td>
-                <td>Jumlah baris data per halaman (maksimum data yang dikembalikan).</td>
+                <td><code>20</code></td>
+                <td>Jumlah baris data per halaman (maksimum 100 data per request).</td>
               </tr>
             </tbody>
           </table>
@@ -612,6 +612,7 @@ const headers = {
   "page": 1,
   "limit": 2,
   "totalPages": 1,
+  "pages": 1,
   "data": [
     {
       "empId": 45,
@@ -632,7 +633,16 @@ const headers = {
       "createdAt": "2026-07-20T14:32:00.000Z",
       "updatedAt": "2026-07-21T08:15:30.000Z"
     }
-  ]
+  ],
+  "meta": {
+    "totalItems": 1,
+    "itemCount": 1,
+    "itemsPerPage": 2,
+    "totalPages": 1,
+    "currentPage": 1,
+    "hasNextPage": false,
+    "hasPreviousPage": false
+  }
 }</pre>
       </div>
 
@@ -667,8 +677,8 @@ const headers = {
               <tr>
                 <td><code>limit</code></td>
                 <td>Integer</td>
-                <td><code>100</code></td>
-                <td>Jumlah baris data per halaman.</td>
+                <td><code>20</code></td>
+                <td>Jumlah baris data per halaman (maksimum 100 data per request).</td>
               </tr>
             </tbody>
           </table>
@@ -686,6 +696,7 @@ const headers = {
   "page": 1,
   "limit": 1,
   "totalPages": 12543,
+  "pages": 12543,
   "data": [
     {
       "atdId": 82012,
@@ -708,7 +719,16 @@ const headers = {
       "lastUpdate": "2026-07-21T17:15:00.000Z",
       "remark": "Hadir tepat waktu, lembur 30 menit disetujui"
     }
-  ]
+  ],
+  "meta": {
+    "totalItems": 12543,
+    "itemCount": 1,
+    "itemsPerPage": 1,
+    "totalPages": 12543,
+    "currentPage": 1,
+    "hasNextPage": true,
+    "hasPreviousPage": false
+  }
 }</pre>
       </div>
 
@@ -743,8 +763,8 @@ const headers = {
               <tr>
                 <td><code>limit</code></td>
                 <td>Integer</td>
-                <td><code>100</code></td>
-                <td>Jumlah baris data per halaman.</td>
+                <td><code>20</code></td>
+                <td>Jumlah baris data per halaman (maksimum 100 data per request).</td>
               </tr>
             </tbody>
           </table>
@@ -762,6 +782,7 @@ const headers = {
   "page": 1,
   "limit": 1,
   "totalPages": 412,
+  "pages": 412,
   "data": [
     {
       "atmId": 5422,
@@ -784,7 +805,16 @@ const headers = {
       "lastUpdate": "2026-07-01T17:00:00.000Z",
       "remark": null
     }
-  ]
+  ],
+  "meta": {
+    "totalItems": 412,
+    "itemCount": 1,
+    "itemsPerPage": 1,
+    "totalPages": 412,
+    "currentPage": 1,
+    "hasNextPage": true,
+    "hasPreviousPage": false
+  }
 }</pre>
       </div>
 
@@ -819,8 +849,8 @@ const headers = {
               <tr>
                 <td><code>limit</code></td>
                 <td>Integer</td>
-                <td><code>100</code></td>
-                <td>Jumlah baris data per halaman.</td>
+                <td><code>20</code></td>
+                <td>Jumlah baris data per halaman (maksimum 100 data per request).</td>
               </tr>
             </tbody>
           </table>
@@ -836,6 +866,7 @@ const headers = {
   "page": 1,
   "limit": 1,
   "totalPages": 850,
+  "pages": 850,
   "data": [
     {
       "trainingId": "3491",
@@ -849,7 +880,16 @@ const headers = {
       "createdAt": "2026-05-12T09:00:00.000Z",
       "updatedAt": "2026-05-12T09:00:00.000Z"
     }
-  ]
+  ],
+  "meta": {
+    "totalItems": 850,
+    "itemCount": 1,
+    "itemsPerPage": 1,
+    "totalPages": 850,
+    "currentPage": 1,
+    "hasNextPage": true,
+    "hasPreviousPage": false
+  }
 }</pre>
       </div>
     </section>

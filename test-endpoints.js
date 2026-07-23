@@ -53,8 +53,8 @@ if (endpoints.length === 0) {
   process.exit(1);
 }
 
-const AUTH_USER = process.env.BASIC_AUTH_USER || 'admin';
-const AUTH_PASS = process.env.BASIC_AUTH_PASS || 'password123';
+const AUTH_USER = process.env.BASIC_AUTH_USER || 'JDI-API';
+const AUTH_PASS = process.env.BASIC_AUTH_PASS || 'JDI-GO2026';
 const AUTH_HEADER = 'Basic ' + Buffer.from(`${AUTH_USER}:${AUTH_PASS}`).toString('base64');
 
 async function testEndpoint(ep) {

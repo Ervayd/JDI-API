@@ -149,8 +149,9 @@ app.get(['/employees', '/api/employees'], async (req, res) => {
   try {
     const q = req.query.q || '';
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 100;
-    const offset = (page - 1) * limit;
+    const limit = parseInt(req.query.limit) || 20;
+    const validLimit = Math.min(limit, 100);
+    const offset = (page - 1) * validLimit;
 
     let countSql = `SELECT COUNT(*) AS total FROM tb_employee`;
     let sql = `
@@ -172,10 +173,10 @@ app.get(['/employees', '/api/employees'], async (req, res) => {
       sql += ` WHERE "EMP_NO" ILIKE $1 OR "NAME" ILIKE $1 OR "JOB_POSITION" ILIKE $1`;
       params.push(searchPattern);
       sql += ` ORDER BY created_at DESC LIMIT $2 OFFSET $3`;
-      params.push(limit, offset);
+      params.push(validLimit, offset);
     } else {
       sql += ` ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
-      params.push(limit, offset);
+      params.push(validLimit, offset);
     }
 
     const [countRes, dataRes] = await Promise.all([
@@ -184,14 +185,25 @@ app.get(['/employees', '/api/employees'], async (req, res) => {
     ]);
 
     const total = parseInt(countRes.rows[0].total, 10);
-    const totalPages = Math.ceil(total / limit) || 1;
+    const totalPages = Math.ceil(total / validLimit) || 1;
+    const mappedData = dataRes.rows.map(mapEmployee);
 
     res.json({
       total,
       page,
-      limit,
+      limit: validLimit,
       totalPages,
-      data: dataRes.rows.map(mapEmployee)
+      pages: totalPages,
+      data: mappedData,
+      meta: {
+        totalItems: total,
+        itemCount: mappedData.length,
+        itemsPerPage: validLimit,
+        totalPages,
+        currentPage: page,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1
+      }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -201,8 +213,9 @@ app.get(['/employees', '/api/employees'], async (req, res) => {
 app.get(['/attendance/daily', '/api/attendance/daily'], async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 100;
-    const offset = (page - 1) * limit;
+    const limit = parseInt(req.query.limit) || 20;
+    const validLimit = Math.min(limit, 100);
+    const offset = (page - 1) * validLimit;
 
     const countSql = `SELECT COUNT(*) AS total FROM tb_attendance_daily`;
     const sql = `
@@ -219,18 +232,29 @@ app.get(['/attendance/daily', '/api/attendance/daily'], async (req, res) => {
 
     const [countRes, dataRes] = await Promise.all([
       query(countSql),
-      query(sql, [limit, offset])
+      query(sql, [validLimit, offset])
     ]);
 
     const total = parseInt(countRes.rows[0].total, 10);
-    const totalPages = Math.ceil(total / limit) || 1;
+    const totalPages = Math.ceil(total / validLimit) || 1;
+    const mappedData = dataRes.rows.map(mapAttendanceDaily);
 
     res.json({
       total,
       page,
-      limit,
+      limit: validLimit,
       totalPages,
-      data: dataRes.rows.map(mapAttendanceDaily)
+      pages: totalPages,
+      data: mappedData,
+      meta: {
+        totalItems: total,
+        itemCount: mappedData.length,
+        itemsPerPage: validLimit,
+        totalPages,
+        currentPage: page,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1
+      }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -240,8 +264,9 @@ app.get(['/attendance/daily', '/api/attendance/daily'], async (req, res) => {
 app.get(['/attendance/monthly', '/api/attendance/monthly'], async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 100;
-    const offset = (page - 1) * limit;
+    const limit = parseInt(req.query.limit) || 20;
+    const validLimit = Math.min(limit, 100);
+    const offset = (page - 1) * validLimit;
 
     const countSql = `SELECT COUNT(*) AS total FROM tb_attendance_monthly`;
     const sql = `
@@ -258,18 +283,29 @@ app.get(['/attendance/monthly', '/api/attendance/monthly'], async (req, res) => 
 
     const [countRes, dataRes] = await Promise.all([
       query(countSql),
-      query(sql, [limit, offset])
+      query(sql, [validLimit, offset])
     ]);
 
     const total = parseInt(countRes.rows[0].total, 10);
-    const totalPages = Math.ceil(total / limit) || 1;
+    const totalPages = Math.ceil(total / validLimit) || 1;
+    const mappedData = dataRes.rows.map(mapAttendanceMonthly);
 
     res.json({
       total,
       page,
-      limit,
+      limit: validLimit,
       totalPages,
-      data: dataRes.rows.map(mapAttendanceMonthly)
+      pages: totalPages,
+      data: mappedData,
+      meta: {
+        totalItems: total,
+        itemCount: mappedData.length,
+        itemsPerPage: validLimit,
+        totalPages,
+        currentPage: page,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1
+      }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -279,8 +315,9 @@ app.get(['/attendance/monthly', '/api/attendance/monthly'], async (req, res) => 
 app.get(['/training', '/api/training'], async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 100;
-    const offset = (page - 1) * limit;
+    const limit = parseInt(req.query.limit) || 20;
+    const validLimit = Math.min(limit, 100);
+    const offset = (page - 1) * validLimit;
 
     const countSql = `SELECT COUNT(*) AS total FROM tb_training`;
     const sql = `
@@ -294,18 +331,29 @@ app.get(['/training', '/api/training'], async (req, res) => {
 
     const [countRes, dataRes] = await Promise.all([
       query(countSql),
-      query(sql, [limit, offset])
+      query(sql, [validLimit, offset])
     ]);
 
     const total = parseInt(countRes.rows[0].total, 10);
-    const totalPages = Math.ceil(total / limit) || 1;
+    const totalPages = Math.ceil(total / validLimit) || 1;
+    const mappedData = dataRes.rows.map(mapTraining);
 
     res.json({
       total,
       page,
-      limit,
+      limit: validLimit,
       totalPages,
-      data: dataRes.rows.map(mapTraining)
+      pages: totalPages,
+      data: mappedData,
+      meta: {
+        totalItems: total,
+        itemCount: mappedData.length,
+        itemsPerPage: validLimit,
+        totalPages,
+        currentPage: page,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1
+      }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
